@@ -17,6 +17,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
         padding: EdgeInsets.all(10),
         children: [
           TextField(
+            controller: controller.nipctrl,
             decoration: InputDecoration(
               labelText: "NIP",
               border: OutlineInputBorder(),
@@ -26,6 +27,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             height: 20,
           ),
           TextField(
+            controller: controller.namectrl,
             decoration: InputDecoration(
               labelText: "Name",
               border: OutlineInputBorder(),
@@ -35,6 +37,7 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             height: 20,
           ),
           TextField(
+            controller: controller.emailctrl,
             decoration: InputDecoration(
               labelText: "Email",
               border: OutlineInputBorder(),
@@ -44,7 +47,9 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             height: 30,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              controller.addEmployee();
+            },
             child: Text("Add Employee"),
           ),
         ],

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_connect/sockets/src/sockets_io.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -14,10 +16,28 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    GetMaterialApp(
-      title: "Application",
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
-    ),
+    StreamBuilder<User?>(
+        //checking any user
+        stream: FirebaseAuth.instance
+            .authStateChanges(), //monitoring all activity or state
+        //current user always change
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          }
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "Application",
+            //checking for auto login
+            initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
+            getPages: AppPages.routes,
+          );
+        }),
   );
 }
