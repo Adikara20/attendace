@@ -1,10 +1,7 @@
 import 'package:attendace/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:awesome_dialog/awesome_dialog.dart';
 
 class LoginController extends GetxController {
   RxBool isloading = false.obs;
@@ -78,7 +75,9 @@ class LoginController extends GetxController {
                       Get.back();
                       Get.snackbar(
                           "succes", "email verification has been sent");
+                      isloading.value = false;
                     } catch (e) {
+                      isloading.value = false;
                       Get.snackbar(
                           "error occurred", "Cannot send email verification");
                     }
@@ -89,7 +88,9 @@ class LoginController extends GetxController {
             );
           }
         }
+        isloading.value = false;
       } on FirebaseAuthException catch (e) {
+        isloading.value = false;
         if (e.code == 'user-not-found') {
           Get.snackbar("error occurred", "No user found for that email.");
         } else if (e.code == 'wrong-password') {
@@ -97,6 +98,7 @@ class LoginController extends GetxController {
               "error occurred", "Wrong password provided for that user.");
         }
       } catch (e) {
+        isloading.value = false;
         Get.snackbar("error occurred", "Cannot Login");
       }
     } else {

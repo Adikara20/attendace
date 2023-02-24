@@ -14,43 +14,49 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         children: [
           TextField(
             controller: controller.nipctrl,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "NIP",
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextField(
             controller: controller.namectrl,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Name",
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextField(
             controller: controller.emailctrl,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: "Email",
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          ElevatedButton(
-            onPressed: () {
-              controller.addEmployee();
-            },
-            child: Text("Add Employee"),
+          Obx(
+            () => ElevatedButton(
+              onPressed: () async {
+                if (controller.isLoading.isFalse) {
+                  await controller.addEmployee();
+                }
+              },
+              child: Text(controller.isLoading.isFalse
+                  ? "Add Employee"
+                  : "Loading . . ."),
+            ),
           ),
         ],
       ),

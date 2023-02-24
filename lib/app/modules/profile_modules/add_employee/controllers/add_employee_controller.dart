@@ -1,10 +1,14 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddEmployeeController extends GetxController {
+  RxBool isLoading = false.obs;
+  RxBool isLoadingAdd = false.obs;
   TextEditingController nipctrl = TextEditingController();
   TextEditingController namectrl = TextEditingController();
   TextEditingController emailctrl = TextEditingController();
@@ -14,22 +18,23 @@ class AddEmployeeController extends GetxController {
   //for enter to database
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  void addEmployee() async {
+  Future<void> addEmployee() async {
     if (nipctrl.text.isNotEmpty &&
         namectrl.text.isNotEmpty &&
         emailctrl.text.isNotEmpty) {
       //
       //for handilng saving email and password for auto login
+      isLoading.value = true;
       Get.defaultDialog(
           title: "COnfirmation",
           content: Column(
             children: [
-              Text("Input password admin"),
+              const Text("Input password admin"),
               TextField(
                 controller: pwdadminctrl,
                 autocorrect: false,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "password",
                   border: OutlineInputBorder(),
                 ),
@@ -38,14 +43,23 @@ class AddEmployeeController extends GetxController {
           ),
           actions: [
             OutlinedButton(
-              onPressed: () => Get.back(),
-              child: Text("Cancel"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await processAddEmployee();
+              onPressed: () {
+                isLoading.value = false;
+                Get.back();
               },
-              child: Text("Add"),
+              child: const Text("Cancel"),
+            ),
+            Obx(
+              () => ElevatedButton(
+                onPressed: () async {
+                  if (isLoadingAdd.isFalse) {
+                    await processAddEmployee();
+                  }
+
+                  isLoading.value = false;
+                },
+                child: Text(isLoadingAdd.isFalse ? "Add" : "Loading . . ."),
+              ),
             ),
           ]);
     } else {
@@ -55,6 +69,7 @@ class AddEmployeeController extends GetxController {
 
   Future<void> processAddEmployee() async {
     if (pwdadminctrl.text.isNotEmpty) {
+      isLoading.value = true;
       try {
         String emailCurAdmin = auth.currentUser!.email!;
 
@@ -79,6 +94,7 @@ class AddEmployeeController extends GetxController {
             "name": namectrl.text,
             "email": emailctrl.text,
             "uid": uid,
+            "role": "employee",
             "createdAt": DateTime.now().toIso8601String(),
           });
 
@@ -96,8 +112,12 @@ class AddEmployeeController extends GetxController {
           Get.back(); // to Home
           Get.snackbar("success", "Employee successfully added");
         }
-        print(employeeCredential);
+        isLoading.value = false;
+        if (kDebugMode) {
+          print(employeeCredential);
+        }
       } on FirebaseAuthException catch (e) {
+        isLoading.value = false;
         if (e.code == 'weak-password') {
           Get.snackbar("error occurred", "The password provided is too weak");
         } else if (e.code == 'wrong-password') {
@@ -109,9 +129,11 @@ class AddEmployeeController extends GetxController {
           Get.snackbar("error occurred", e.code);
         }
       } catch (e) {
+        isLoading.value = false;
         Get.snackbar("error occurred", "Cannot add new Employee");
       }
     } else {
+      isLoading.value = false;
       Get.snackbar("error occurred", "The password is must be filled");
     }
   }

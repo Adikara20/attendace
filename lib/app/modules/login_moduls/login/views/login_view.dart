@@ -1,17 +1,18 @@
+import 'package:attendace/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../../constant/colors.dart';
-import '../../../widgets/round_button.dart';
-import '../../../widgets/text_costum.dart';
+import '../../../../constant/colors.dart';
+import '../../../../widgets/round_button.dart';
+import '../../../../widgets/text_costum.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  static GlobalKey<FormState> _formKey1 = new GlobalKey<FormState>();
-  static GlobalKey<FormState> _formKey2 = new GlobalKey<FormState>();
+  static final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
+  static final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 
-  ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
 
   LoginView({Key? key}) : super(key: key);
   @override
@@ -168,7 +169,9 @@ class LoginView extends GetView<LoginController> {
                     height: 5,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(Routes.FORGOT_PASSWORD);
+                    },
                     child: const Text(
                       "forgot Password?",
                       style: TextStyle(color: AppColors.primaryColor),
