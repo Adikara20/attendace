@@ -13,6 +13,7 @@ class AddEmployeeController extends GetxController {
   TextEditingController namectrl = TextEditingController();
   TextEditingController emailctrl = TextEditingController();
   TextEditingController pwdadminctrl = TextEditingController();
+  TextEditingController jobctrl = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
   //for enter to database
@@ -21,7 +22,8 @@ class AddEmployeeController extends GetxController {
   Future<void> addEmployee() async {
     if (nipctrl.text.isNotEmpty &&
         namectrl.text.isNotEmpty &&
-        emailctrl.text.isNotEmpty) {
+        emailctrl.text.isNotEmpty &&
+        jobctrl.text.isNotEmpty) {
       //
       //for handilng saving email and password for auto login
       isLoading.value = true;
@@ -95,6 +97,7 @@ class AddEmployeeController extends GetxController {
             "email": emailctrl.text,
             "uid": uid,
             "role": "employee",
+            "jobs": jobctrl.text,
             "createdAt": DateTime.now().toIso8601String(),
           });
 

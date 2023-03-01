@@ -27,11 +27,30 @@ class ProfileView extends GetView<ProfileController> {
           if (snapshot.hasData) {
             Map<String, dynamic> user = snapshot.data!.data()!;
 
+            String defaultImage =
+                "https://ui-avatars.com/api/?name=${user['name']}";
+
             return ListView(
               padding: const EdgeInsets.all(10),
               children: [
-                const CircleAvatar(
-                  radius: 50,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ClipOval(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        child: Image.network(
+                          user["profile"] != null
+                              ? user["profile"] != ""
+                                  ? user["profile"]
+                                  : defaultImage
+                              : defaultImage,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 10,

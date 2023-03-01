@@ -1,66 +1,289 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:attendace/app/controllers/page_index_controller_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../../constant/colors.dart';
 import '../../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
+
+  final pageController = Get.find<PageIndexControllerController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomeView'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.toNamed(Routes.PROFILE);
-            },
-            icon: const Icon(Icons.person),
-          ),
-          // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          //     stream: controller.streamRoleUser(),
-          //     builder: (context, snapshot) {
-          //       if (snapshot.connectionState == ConnectionState.waiting) {
-          //         return SizedBox();
-          //       }
-          //       String role = snapshot.data!.data()!["role"];
-          //       if (role == "admin") {
-          //         return IconButton(
-          //           onPressed: () {
-          //             Get.toNamed(Routes.ADD_EMPLOYEE);
-          //           },
-          //           icon: Icon(Icons.person),
-          //         );
-          //       } else {
-          //         return SizedBox();
-          //       }
-          //     }),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       Get.toNamed(Routes.PROFILE);
+        //     },
+        //     icon: const Icon(Icons.person),
+        //   ),
+        //   // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        //   //     stream: controller.streamRoleUser(),
+        //   //     builder: (context, snapshot) {
+        //   //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //   //         return SizedBox();
+        //   //       }
+        //   //       String role = snapshot.data!.data()!["role"];
+        //   //       if (role == "admin") {
+        //   //         return IconButton(
+        //   //           onPressed: () {
+        //   //             Get.toNamed(Routes.ADD_EMPLOYEE);
+        //   //           },
+        //   //           icon: Icon(Icons.person),
+        //   //         );
+        //   //       } else {
+        //   //         return SizedBox();
+        //   //       }
+        //   //     }),
+        // ],
       ),
-      body: const Center(
-        child: Text(
-          'HomeView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-      floatingActionButton: Obx(
-        () => FloatingActionButton(
-          onPressed: () async {
-            if (controller.isLoading.isFalse) {
-              controller.isLoading.value = true;
-              await FirebaseAuth.instance.signOut();
-              controller.isLoading.value = false;
-              Get.offAllNamed(Routes.LOGIN);
+      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: controller.streamRoleUser(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
-          },
-          child: controller.isLoading.isFalse
-              ? const Icon(Icons.logout)
-              : const CircularProgressIndicator(),
+
+            if (snapshot.hasData) {
+              Map<String, dynamic> user = snapshot.data!.data()!;
+
+              String defaultImage =
+                  "https://ui-avatars.com/api/?name=${user['name']}";
+
+              return ListView(
+                padding: const EdgeInsets.all(10),
+                children: [
+                  //
+                  Row(
+                    children: [
+                      ClipOval(
+                        child: Container(
+                          height: 75,
+                          width: 75,
+                          child: Image.network(
+                            user["profile"] != null
+                                ? user["profile"]
+                                : defaultImage,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "Welcome",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "alamat",
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    //height: 250,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey[200],
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "${user["job"]}",
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "${user["nip"]}",
+                          style: const TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "${user["name"]}",
+                          style: const TextStyle(
+                            fontSize: 28,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey[200],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            const Text("Masuk"),
+                            const Text("-"),
+                          ],
+                        ),
+                        Container(
+                          width: 2,
+                          height: 40,
+                          color: Colors.grey,
+                        ),
+                        Column(
+                          children: [
+                            const Text("Masuk"),
+                            const Text("-"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Divider(
+                    thickness: 2,
+                    color: Colors.grey[300],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Last 5 days",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.ALL_HISTORY_ATTENDANCE);
+                        },
+                        child: const Text("see more"),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Material(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(20),
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.DETAIL_ATTENDACE);
+                              },
+                              child: Container(
+                                //margin: const EdgeInsets.only(bottom: 20),
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  //color: Colors.grey[200],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Masuk",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Text(
+                                      "Keluar",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                ],
+              );
+            } else {
+              return const Center(
+                child: Text("Cannot execute database"),
+              );
+            }
+          }),
+
+      // floatingActionButton: Obx(
+      //   () => FloatingActionButton(
+      //     onPressed: () async {
+      //       if (controller.isLoading.isFalse) {
+      //         controller.isLoading.value = true;
+      //         await FirebaseAuth.instance.signOut();
+      //         controller.isLoading.value = false;
+      //         Get.offAllNamed(Routes.LOGIN);
+      //       }
+      //     },
+      //     child: controller.isLoading.isFalse
+      //         ? const Icon(Icons.logout)
+      //         : const CircularProgressIndicator(),
+      //   ),
+      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.secondaryColor,
+        child: const Icon(
+          Icons.fingerprint,
+          size: 45,
+          color: AppColors.primaryColor,
         ),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: AnimatedBottomNavigationBar(
+        activeColor: AppColors.secondaryColor,
+        inactiveColor: Colors.white,
+        icons: pageController.iconList,
+        leftCornerRadius: 32,
+        rightCornerRadius: 32,
+        activeIndex: pageController.indexPage.value,
+        gapLocation: GapLocation.center,
+        notchSmoothness: NotchSmoothness.verySmoothEdge,
+        onTap: (index) => pageController.changePage(index),
+        backgroundColor: AppColors.primaryColor,
       ),
     );
   }

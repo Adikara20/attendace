@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -50,6 +52,65 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
               labelText: "Name",
               border: OutlineInputBorder(),
             ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Text("Photo Profile"),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GetBuilder<UpdateProfileController>(
+                builder: (builder) {
+                  if (builder.image != null) {
+                    return ClipOval(
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.file(
+                          File(builder.image!.path),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  } else {
+                    if (user["profile"] != null) {
+                      return Column(
+                        children: [
+                          ClipOval(
+                            child: SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: Image.network(
+                                user["profile"],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              controller.pickDeleteProfile(user["uid"]);
+                            },
+                            child: Text("delete"),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Text("data");
+                    }
+                  }
+                },
+              ),
+              TextButton(
+                onPressed: () {
+                  controller.pickPhotoProfile();
+                },
+                child: Text("choose"),
+              ),
+            ],
           ),
           const SizedBox(
             height: 30,

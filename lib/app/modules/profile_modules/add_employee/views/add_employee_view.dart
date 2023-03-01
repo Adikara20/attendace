@@ -44,6 +44,16 @@ class AddEmployeeView extends GetView<AddEmployeeController> {
             ),
           ),
           const SizedBox(
+            height: 20,
+          ),
+          TextField(
+            controller: controller.jobctrl,
+            decoration: const InputDecoration(
+              labelText: "Jobs",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(
             height: 30,
           ),
           Obx(
