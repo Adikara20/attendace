@@ -38,9 +38,9 @@ void main() async {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: "Application",
-            initialRoute: Routes.HOME,
+            //initialRoute: Routes.HOME,
             //checking for auto login
-            //initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
+            initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
             getPages: AppPages.routes,
           );
         }),

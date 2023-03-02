@@ -85,13 +85,19 @@ class HomeView extends GetView<HomeController> {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Welcome",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            "alamat",
+                          Container(
+                            width: 200,
+                            child: Text(
+                              user["address"] != null
+                                  ? "${user['address']}"
+                                  : "Belum ada lokasi.",
+                              textAlign: TextAlign.left,
+                            ),
                           ),
                         ],
                       ),
