@@ -27,8 +27,8 @@ class NewPasswordView extends GetView<NewPasswordController> {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              controller.newPasswrod();
+            onPressed: () async {
+              await controller.newPasswrod();
             },
             child: const Text("CONTINUE"),
           ),

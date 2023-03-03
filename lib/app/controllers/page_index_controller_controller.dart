@@ -23,7 +23,7 @@ class PageIndexControllerController extends GetxController {
 
   void changePage(int index) async {
     switch (index) {
-      case 1:
+      case 0:
         Map<String, dynamic> dataResponse = await determinePosition();
         if (dataResponse["error"] != true) {
           Position position = dataResponse["position"];
@@ -47,7 +47,7 @@ class PageIndexControllerController extends GetxController {
           Get.snackbar("error occurred", dataResponse["message"]);
         }
         break;
-      case 2:
+      case 1:
         indexPage.value = index;
         Get.offAllNamed(Routes.PROFILE);
         break;
@@ -91,6 +91,7 @@ class PageIndexControllerController extends GetxController {
           "long": position.longitude,
           "address": address,
           "status": status,
+          "distance" : distance,
         }
       });
     } else {
@@ -110,6 +111,7 @@ class PageIndexControllerController extends GetxController {
                   "long": position.longitude,
                   "address": address,
                   "status": status,
+                  "distance" : distance,
                 }
               })
             : Get.snackbar("Successfully", "You got attendance in & out");
@@ -123,6 +125,7 @@ class PageIndexControllerController extends GetxController {
             "long": position.longitude,
             "address": address,
             "status": status,
+            "distance" : distance,
           }
         });
       }

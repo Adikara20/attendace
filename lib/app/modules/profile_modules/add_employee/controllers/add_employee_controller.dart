@@ -28,7 +28,7 @@ class AddEmployeeController extends GetxController {
       //for handilng saving email and password for auto login
       isLoading.value = true;
       Get.defaultDialog(
-          title: "COnfirmation",
+          title: "Confirmation",
           content: Column(
             children: [
               const Text("Input password admin"),

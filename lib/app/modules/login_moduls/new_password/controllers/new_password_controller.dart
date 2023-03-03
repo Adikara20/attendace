@@ -8,18 +8,21 @@ class NewPasswordController extends GetxController {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void newPasswrod() async {
+  Future<void> newPasswrod() async {
     if (newPwdctrl.text.isNotEmpty) {
       if (newPwdctrl.text != "password") {
         try {
+
+          String email = auth.currentUser!.email!;
+
           await auth.currentUser!.updatePassword(newPwdctrl.text);
 
           //after change password must sign out
           await auth.signOut();
-
+          
           //then auto login to Home
           await auth.signInWithEmailAndPassword(
-            email: auth.currentUser!.email!,
+            email: email,
             password: newPwdctrl.text,
           );
 

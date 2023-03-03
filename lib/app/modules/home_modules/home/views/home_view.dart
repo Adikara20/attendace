@@ -17,36 +17,36 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeView'),
-        centerTitle: true,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       Get.toNamed(Routes.PROFILE);
-        //     },
-        //     icon: const Icon(Icons.person),
-        //   ),
-        //   // StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        //   //     stream: controller.streamRoleUser(),
-        //   //     builder: (context, snapshot) {
-        //   //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //   //         return SizedBox();
-        //   //       }
-        //   //       String role = snapshot.data!.data()!["role"];
-        //   //       if (role == "admin") {
-        //   //         return IconButton(
-        //   //           onPressed: () {
-        //   //             Get.toNamed(Routes.ADD_EMPLOYEE);
-        //   //           },
-        //   //           icon: Icon(Icons.person),
-        //   //         );
-        //   //       } else {
-        //   //         return SizedBox();
-        //   //       }
-        //   //     }),
-        // ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('HomeView'),
+      //   centerTitle: true,
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         Get.toNamed(Routes.PROFILE);
+      //       },
+      //       icon: const Icon(Icons.person),
+      //     ),
+      //     StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      //         stream: controller.streamRoleUser(),
+      //         builder: (context, snapshot) {
+      //           if (snapshot.connectionState == ConnectionState.waiting) {
+      //             return SizedBox();
+      //           }
+      //           String role = snapshot.data!.data()!["role"];
+      //           if (role == "admin") {
+      //             return IconButton(
+      //               onPressed: () {
+      //                 Get.toNamed(Routes.ADD_EMPLOYEE);
+      //               },
+      //               icon: Icon(Icons.person),
+      //             );
+      //           } else {
+      //             return SizedBox();
+      //           }
+      //         }),
+      //   ],
+      // ),
       body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: controller.streamRoleUser(),
           builder: (context, snapshot) {
@@ -63,7 +63,7 @@ class HomeView extends GetView<HomeController> {
                   "https://ui-avatars.com/api/?name=${user['name']}";
 
               return ListView(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(top: 45,right: 15, bottom: 15, left: 15),
                 children: [
                   //
                   Row(
@@ -118,15 +118,15 @@ class HomeView extends GetView<HomeController> {
                         Text(
                           "${user["job"]}",
                           style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 22, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Text(
                           "${user["nip"]}",
                           style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                              fontSize: 28, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 10,
@@ -134,7 +134,7 @@ class HomeView extends GetView<HomeController> {
                         Text(
                           "${user["name"]}",
                           style: const TextStyle(
-                            fontSize: 28,
+                            fontSize: 22,
                           ),
                         ),
                       ],
@@ -198,16 +198,16 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(10),
                           child: Material(
                             color: Colors.grey[200],
                             borderRadius: BorderRadius.circular(20),

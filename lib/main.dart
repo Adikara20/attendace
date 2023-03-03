@@ -39,6 +39,7 @@ void main() async {
             debugShowCheckedModeBanner: false,
             title: "Application",
             //initialRoute: Routes.HOME,
+            //initialRoute: Routes.ADD_EMPLOYEE,
             //checking for auto login
             initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
             getPages: AppPages.routes,
