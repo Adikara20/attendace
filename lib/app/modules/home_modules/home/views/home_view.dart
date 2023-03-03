@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../constant/colors.dart';
+import '../../../../controllers/presence_controller_controller.dart';
 import '../../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
@@ -13,6 +14,8 @@ class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
 
   final pageController = Get.find<PageIndexControllerController>();
+
+  final presenceCtrl = Get.find<PresenceControllerController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -295,7 +298,9 @@ class HomeView extends GetView<HomeController> {
           size: 45,
           color: AppColors.primaryColor,
         ),
-        onPressed: () {},
+        onPressed: () async {
+          await presenceCtrl.getPresenceFunc();
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(

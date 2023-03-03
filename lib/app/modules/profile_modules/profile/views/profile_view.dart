@@ -7,19 +7,19 @@ import 'package:get/get.dart';
 
 import '../../../../constant/colors.dart';
 import '../../../../controllers/page_index_controller_controller.dart';
+import '../../../../controllers/presence_controller_controller.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   ProfileView({Key? key}) : super(key: key);
 
   final pageController = Get.find<PageIndexControllerController>();
+
+  final presenceCtrl = Get.find<PresenceControllerController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        centerTitle: true,
-      ),
       body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: controller.streamDataUser(),
         builder: (context, snapshot) {
@@ -36,15 +36,16 @@ class ProfileView extends GetView<ProfileController> {
                 "https://ui-avatars.com/api/?name=${user['name']}";
 
             return ListView(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(
+                  top: 70, left: 15, right: 15, bottom: 5),
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipOval(
                       child: Container(
-                        width: 100,
-                        height: 100,
+                        width: 200,
+                        height: 200,
                         child: Image.network(
                           user["profile"] != null
                               ? user["profile"] != ""
@@ -110,7 +111,9 @@ class ProfileView extends GetView<ProfileController> {
           size: 45,
           color: AppColors.primaryColor,
         ),
-        onPressed: () {},
+        onPressed: () async {
+          await presenceCtrl.getPresenceFunc();
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(

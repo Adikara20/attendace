@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import 'app/controllers/presence_controller_controller.dart';
 import 'app/routes/app_pages.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +19,8 @@ void main() async {
 
   final pageController =
       Get.put(PageIndexControllerController(), permanent: true);
+
+  final presenceCtrl = Get.put(PresenceControllerController(), permanent: true);
 
   runApp(
     StreamBuilder<User?>(
