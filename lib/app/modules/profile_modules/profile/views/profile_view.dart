@@ -1,13 +1,18 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:attendace/app/routes/app_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../../constant/colors.dart';
+import '../../../../controllers/page_index_controller_controller.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({Key? key}) : super(key: key);
+  ProfileView({Key? key}) : super(key: key);
+
+  final pageController = Get.find<PageIndexControllerController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +102,28 @@ class ProfileView extends GetView<ProfileController> {
             );
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.secondaryColor,
+        child: const Icon(
+          Icons.fingerprint,
+          size: 45,
+          color: AppColors.primaryColor,
+        ),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: AnimatedBottomNavigationBar(
+        activeColor: AppColors.secondaryColor,
+        inactiveColor: Colors.white,
+        icons: pageController.iconList,
+        leftCornerRadius: 32,
+        rightCornerRadius: 32,
+        activeIndex: pageController.indexPage.value,
+        gapLocation: GapLocation.center,
+        notchSmoothness: NotchSmoothness.verySmoothEdge,
+        onTap: (index) => pageController.changePage(index),
+        backgroundColor: AppColors.primaryColor,
       ),
     );
   }
