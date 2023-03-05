@@ -1,4 +1,5 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:attendace/app/constant/padding.dart';
 import 'package:attendace/app/controllers/page_index_controller_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -65,26 +66,35 @@ class HomeView extends GetView<HomeController> {
                 "https://ui-avatars.com/api/?name=${user['name']}";
 
             return Padding(
-              padding: const EdgeInsets.only(
-                  top: 65, left: 15, right: 15, bottom: 5),
+              padding: AppPadding.edgeInsetsOnly,
               child: Column(
                 children: [
                   Row(
                     children: [
-                      ClipOval(
-                        child: Container(
-                          height: 75,
-                          width: 75,
-                          child: Image.network(
-                            user["profile"] != null
-                                ? user["profile"]
-                                : defaultImage,
-                            fit: BoxFit.cover,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipOval(
+                            child: Container(
+                              width: 82,
+                              height: 82,
+                              color: AppColors.primaryColor,
+                            ),
                           ),
-                        ),
+                          ClipOval(
+                            child: SizedBox(
+                              height: 75,
+                              width: 75,
+                              child: Image.network(
+                                user["profile"] ?? defaultImage,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +103,7 @@ class HomeView extends GetView<HomeController> {
                             "Welcome",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Container(
+                          SizedBox(
                             width: 200,
                             child: Text(
                               user["address"] != null

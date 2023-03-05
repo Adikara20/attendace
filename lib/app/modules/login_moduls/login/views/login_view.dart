@@ -1,4 +1,5 @@
 import 'package:attendace/app/routes/app_pages.dart';
+import 'package:attendace/app/widgets/text_formfield_custom.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -24,8 +25,6 @@ class LoginView extends GetView<LoginController> {
           child: Center(
             child: SingleChildScrollView(
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const TextCostum(
                     text: 'Login',
@@ -46,108 +45,40 @@ class LoginView extends GetView<LoginController> {
                     height: 40,
                   ),
                   Obx(
-                    () => AnimatedContainer(
-                      duration: const Duration(seconds: 5),
-                      margin: const EdgeInsets.all(16),
-                      decoration: controller.emailfocusAnimated.value
-                          ? BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius: 15,
-                                    offset: Offset(-5, 5),
-                                  ),
-                                ])
-                          : null,
-                      child: Form(
-                        key: _formKey1,
-                        child: TextFormField(
-                          autocorrect: false,
-                          cursorColor: AppColors.primaryColor,
-                          controller: controller.emailctrl,
-                          keyboardType: TextInputType.emailAddress,
-                          focusNode: controller.emailFocusNode,
-                          decoration: const InputDecoration(
-                              hintText: 'email',
-                              prefixIcon: Icon(
-                                Icons.alternate_email,
-                                color: AppColors.primaryColor,
-                              ),
-                              fillColor: Colors.white,
-                              hoverColor: Colors.white,
-                              filled: true,
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide.none),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                      color: AppColors.primaryColor,
-                                      width: 1))),
-                        ),
-                      ),
+                    () => TextFormFieldCustom(
+                      formKey: _formKey1,
+                      textController: controller.emailctrl,
+                      obsecureText: false,
+                      focusNode: controller.emailFocusNode,
+                      text: 'email',
+                      keyboardType: TextInputType.emailAddress,
+                      iconData: Icons.alternate_email,
+                      useObsecure: false,
+                      iconColor: AppColors.primaryColor,
+                      animatedFocusNode: controller.emailfocusAnimated.value,
                     ),
                   ),
                   ValueListenableBuilder(
                     valueListenable: _obsecurePassword,
                     builder: (context, value, child) {
                       return Obx(
-                        () => AnimatedContainer(
-                          duration: const Duration(seconds: 5),
-                          margin: const EdgeInsets.all(16),
-                          decoration: controller.passfocusAnimated.value
-                              ? BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        blurRadius: 15,
-                                        offset: Offset(-5, 5),
-                                      ),
-                                    ])
-                              : null,
-                          child: Form(
-                            key: _formKey2,
-                            child: TextFormField(
-                              autocorrect: false,
-                              cursorColor: AppColors.primaryColor,
-                              controller: controller.passctrl,
-                              obscureText: _obsecurePassword.value,
-                              focusNode: controller.passwordFocusNode,
-                              obscuringCharacter: '*',
-                              decoration: InputDecoration(
-                                  hintText: 'password',
-                                  prefixIcon: const Icon(Icons.lock,
-                                      color: AppColors.primaryColor),
-                                  suffixIcon: InkWell(
-                                    onTap: (() {
-                                      _obsecurePassword.value =
-                                          !_obsecurePassword.value;
-                                    }),
-                                    child: Icon(
-                                        _obsecurePassword.value
-                                            ? Icons.visibility_off_outlined
-                                            : Icons.visibility,
-                                        color: AppColors.primaryColor),
-                                  ),
-                                  fillColor: Colors.white,
-                                  hoverColor: Colors.white,
-                                  filled: true,
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide.none),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                          color: AppColors.primaryColor,
-                                          width: 1))),
-                            ),
-                          ),
+                        () => TextFormFieldCustom(
+                          formKey: _formKey2,
+                          textController: controller.passctrl,
+                          obsecureText: _obsecurePassword.value,
+                          focusNode: controller.passwordFocusNode,
+                          text: 'password',
+                          keyboardType: TextInputType.text,
+                          iconData: Icons.lock,
+                          useObsecure: true,
+                          iconColor: AppColors.primaryColor,
+                          animatedFocusNode: controller.passfocusAnimated.value,
                         ),
                       );
                     },
                   ),
+
+                  //
                   const SizedBox(
                     height: 40,
                   ),
@@ -162,7 +93,7 @@ class LoginView extends GetView<LoginController> {
                           await controller.login();
                         }
                       },
-                      fontSize: 18,
+                      fontSize: 18, color: AppColors.secondaryColor,
                     ),
                   ),
                   const SizedBox(

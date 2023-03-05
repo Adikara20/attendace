@@ -86,4 +86,44 @@ class UpdateProfileController extends GetxController {
       Get.snackbar("error occurred", "Cannot delete profile picture");
     }
   }
+
+  //for display
+  FocusNode nipctrlFocusNode = FocusNode();
+  FocusNode namectrlFocusNode = FocusNode();
+  FocusNode emailctrlFocusNode = FocusNode();
+  FocusNode pwdadminctrlFocusNode = FocusNode();
+  RxBool nipctrlfocusAnimated = false.obs;
+  RxBool namectrlfocusAnimated = false.obs;
+  RxBool emailctrlfocusAnimated = false.obs;
+  RxBool pwdadminctrlfocusAnimated = false.obs;
+
+  @override
+  void onInit() {
+    nipctrlFocusNode.addListener(() {
+      nipctrlfocusAnimated.value = !nipctrlfocusAnimated.value;
+    });
+
+    namectrlFocusNode.addListener(() {
+      namectrlfocusAnimated.value = !namectrlfocusAnimated.value;
+    });
+
+    emailctrlFocusNode.addListener(() {
+      emailctrlfocusAnimated.value = !emailctrlfocusAnimated.value;
+    });
+
+    pwdadminctrlFocusNode.addListener(() {
+      pwdadminctrlfocusAnimated.value = !pwdadminctrlfocusAnimated.value;
+    });
+
+    super.onInit();
+  }
+
+  @override
+  onClose() {
+    nipctrlFocusNode.dispose();
+    namectrlFocusNode.dispose();
+    emailctrlFocusNode.dispose();
+    pwdadminctrlFocusNode.dispose();
+    super.onClose();
+  }
 }
