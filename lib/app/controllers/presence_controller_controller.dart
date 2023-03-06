@@ -5,6 +5,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../constant/colors.dart';
+
 class PresenceControllerController extends GetxController {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -31,9 +33,17 @@ class PresenceControllerController extends GetxController {
 
       await presence(position, address, distance);
 
-      Get.snackbar("Successfully", "You got attendance");
+      Get.snackbar(
+        "Successfully",
+        "You got attendance",
+        backgroundColor: AppColors.succesColor,
+      );
     } else {
-      Get.snackbar("error occurred", dataResponse["message"]);
+      Get.snackbar(
+        "error occurred",
+        dataResponse["message"],
+        backgroundColor: AppColors.removeColor,
+      );
     }
   }
 
@@ -94,7 +104,11 @@ class PresenceControllerController extends GetxController {
                   "distance": distance,
                 }
               })
-            : Get.snackbar("Successfully", "You got attendance in & out");
+            : Get.snackbar(
+                "Successfully",
+                "You got attendance in & out",
+                backgroundColor: AppColors.succesColor,
+              );
       } else {
         //presence in
         await colPresence.doc(docIdNow).set({

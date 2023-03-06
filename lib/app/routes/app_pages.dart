@@ -69,7 +69,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.UPDATE_PASSWORD_PROFILE,
-      page: () => const UpdatePasswordProfileView(),
+      page: () => UpdatePasswordProfileView(),
       binding: UpdatePasswordProfileBinding(),
     ),
     GetPage(

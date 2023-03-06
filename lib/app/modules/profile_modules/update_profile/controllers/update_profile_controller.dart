@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as s;
 
+import '../../../../constant/colors.dart';
+
 //import 'package:path_provider/path_provider.dart';
 
 class UpdateProfileController extends GetxController {
@@ -53,9 +55,17 @@ class UpdateProfileController extends GetxController {
 
         await firestore.collection("employee").doc(uid).update(data);
 
-        Get.snackbar("success", "Update profile successfully");
+        Get.snackbar(
+          "success",
+          "Update profile successfully",
+          backgroundColor: AppColors.succesColor,
+        );
       } catch (e) {
-        Get.snackbar("error occurred", "Cannot update profile");
+        Get.snackbar(
+          "error occurred",
+          "Cannot update profile",
+          backgroundColor: AppColors.removeColor,
+        );
       } finally {
         isLoading.value = false;
       }
@@ -81,9 +91,17 @@ class UpdateProfileController extends GetxController {
       });
       update();
       Get.back();
-      Get.snackbar("success", "delete profile picture successfully");
+      Get.snackbar(
+        "success",
+        "delete profile picture successfully",
+        backgroundColor: AppColors.succesColor,
+      );
     } catch (e) {
-      Get.snackbar("error occurred", "Cannot delete profile picture");
+      Get.snackbar(
+        "error occurred",
+        "Cannot delete profile picture",
+        backgroundColor: AppColors.removeColor,
+      );
     }
   }
 

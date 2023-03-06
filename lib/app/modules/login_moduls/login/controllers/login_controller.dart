@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../constant/colors.dart';
+
 class LoginController extends GetxController {
   RxBool isloading = false.obs;
   TextEditingController emailctrl = TextEditingController();
@@ -74,12 +76,18 @@ class LoginController extends GetxController {
                       await credential.user!.sendEmailVerification();
                       Get.back();
                       Get.snackbar(
-                          "succes", "email verification has been sent");
+                        "succes",
+                        "email verification has been sent",
+                        backgroundColor: AppColors.succesColor,
+                      );
                       isloading.value = false;
                     } catch (e) {
                       isloading.value = false;
                       Get.snackbar(
-                          "error occurred", "Cannot send email verification");
+                        "error occurred",
+                        "Cannot send email verification",
+                        backgroundColor: AppColors.removeColor,
+                      );
                     }
                   },
                   child: const Text("Send Verifiy"),
@@ -92,17 +100,32 @@ class LoginController extends GetxController {
       } on FirebaseAuthException catch (e) {
         isloading.value = false;
         if (e.code == 'user-not-found') {
-          Get.snackbar("error occurred", "No user found for that email.");
+          Get.snackbar(
+            "error occurred",
+            "No user found for that email.",
+            backgroundColor: AppColors.removeColor,
+          );
         } else if (e.code == 'wrong-password') {
           Get.snackbar(
-              "error occurred", "Wrong password provided for that user.");
+            "error occurred",
+            "Wrong password provided for that user.",
+            backgroundColor: AppColors.removeColor,
+          );
         }
       } catch (e) {
         isloading.value = false;
-        Get.snackbar("error occurred", "Cannot Login");
+        Get.snackbar(
+          "error occurred",
+          "Cannot Login",
+          backgroundColor: AppColors.removeColor,
+        );
       }
     } else {
-      Get.snackbar("error occurred", "Email and Password must be filled");
+      Get.snackbar(
+        "error occurred",
+        "Email and Password must be filled",
+        backgroundColor: AppColors.removeColor,
+      );
     }
   }
 }

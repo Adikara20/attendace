@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../constant/colors.dart';
+
 class AddEmployeeController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoadingAdd = false.obs;
@@ -65,7 +67,11 @@ class AddEmployeeController extends GetxController {
             ),
           ]);
     } else {
-      Get.snackbar("error occurred", "NIP, Name, Email must be filled");
+      Get.snackbar(
+        "error occurred",
+        "NIP, Name, Email must be filled",
+        backgroundColor: AppColors.removeColor,
+      );
     }
   }
 
@@ -113,7 +119,11 @@ class AddEmployeeController extends GetxController {
 
           Get.back(); // close dialog
           Get.back(); // to Home
-          Get.snackbar("success", "Employee successfully added");
+          Get.snackbar(
+            "success",
+            "Employee successfully added",
+            backgroundColor: AppColors.succesColor,
+          );
         }
         isLoading.value = false;
         if (kDebugMode) {
@@ -122,22 +132,92 @@ class AddEmployeeController extends GetxController {
       } on FirebaseAuthException catch (e) {
         isLoading.value = false;
         if (e.code == 'weak-password') {
-          Get.snackbar("error occurred", "The password provided is too weak");
+          Get.snackbar(
+            "error occurred",
+            "The password provided is too weak",
+            backgroundColor: AppColors.removeColor,
+          );
         } else if (e.code == 'wrong-password') {
-          Get.snackbar("error occurred", "Wrong Passwrod");
+          Get.snackbar(
+            "error occurred",
+            "Wrong Passwrod",
+            backgroundColor: AppColors.removeColor,
+          );
         } else if (e.code == 'email-already-in-use') {
           Get.snackbar(
-              "error occurred", "The account already exists for that email");
+            "error occurred",
+            "The account already exists for that email",
+            backgroundColor: AppColors.removeColor,
+          );
         } else {
-          Get.snackbar("error occurred", e.code);
+          Get.snackbar(
+            "error occurred",
+            e.code,
+            backgroundColor: AppColors.removeColor,
+          );
         }
       } catch (e) {
         isLoading.value = false;
-        Get.snackbar("error occurred", "Cannot add new Employee");
+        Get.snackbar(
+          "error occurred",
+          "Cannot add new Employee",
+          backgroundColor: AppColors.removeColor,
+        );
       }
     } else {
       isLoading.value = false;
-      Get.snackbar("error occurred", "The password is must be filled");
+      Get.snackbar(
+        "error occurred",
+        "The password is must be filled",
+        backgroundColor: AppColors.removeColor,
+      );
     }
+  }
+
+  //for display
+  FocusNode nipctrlFocusNode = FocusNode();
+  FocusNode namectrlFocusNode = FocusNode();
+  FocusNode emailctrlFocusNode = FocusNode();
+  FocusNode pwdadminctrlFocusNode = FocusNode();
+  FocusNode jobctrlFocusNode = FocusNode();
+  RxBool nipctrlfocusAnimated = false.obs;
+  RxBool namectrlfocusAnimated = false.obs;
+  RxBool emailctrlfocusAnimated = false.obs;
+  RxBool pwdadminctrlfocusAnimated = false.obs;
+  RxBool jobctrlfocusAnimated = false.obs;
+
+  @override
+  void onInit() {
+    nipctrlFocusNode.addListener(() {
+      nipctrlfocusAnimated.value = !nipctrlfocusAnimated.value;
+    });
+
+    namectrlFocusNode.addListener(() {
+      namectrlfocusAnimated.value = !namectrlfocusAnimated.value;
+    });
+
+    emailctrlFocusNode.addListener(() {
+      emailctrlfocusAnimated.value = !emailctrlfocusAnimated.value;
+    });
+
+    pwdadminctrlFocusNode.addListener(() {
+      pwdadminctrlfocusAnimated.value = !pwdadminctrlfocusAnimated.value;
+    });
+
+    jobctrlFocusNode.addListener(() {
+      jobctrlfocusAnimated.value = !jobctrlfocusAnimated.value;
+    });
+
+    super.onInit();
+  }
+
+  @override
+  onClose() {
+    nipctrlFocusNode.dispose();
+    namectrlFocusNode.dispose();
+    emailctrlFocusNode.dispose();
+    pwdadminctrlFocusNode.dispose();
+    jobctrlFocusNode.dispose();
+    super.onClose();
   }
 }
